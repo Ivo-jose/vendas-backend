@@ -5,13 +5,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "TB_PRODUCT")
+@Table(name = "tb_product")
 public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -24,11 +28,16 @@ public class Product implements Serializable {
 	private Double price;
 	private String imgUrl;
 	
-	@jakarta.persistence.Transient
+	@ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "tb_product_category", 
+        joinColumns = { @JoinColumn(name = "product_id") }, 
+        inverseJoinColumns = { @JoinColumn(name = "category_id") }
+    )
 	private Set<Category> categories = new HashSet<>();
 	
 	public Product() {
-	}
+	} 
 
 	
 	public Product(Long id, String name, String description, Double price, String imgUrl) {
@@ -67,6 +76,10 @@ public class Product implements Serializable {
 
 	public Set<Category> getCategories() {
 		return categories;
+	}
+	
+	public void addCategories(Category category) {
+		this.categories.add(category);
 	}
 
 
