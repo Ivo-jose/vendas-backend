@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service;
 
 import com.ivogoncalves.course.domain.Category;
 import com.ivogoncalves.course.domain.Order;
+import com.ivogoncalves.course.domain.OrderItem;
 import com.ivogoncalves.course.domain.Product;
 import com.ivogoncalves.course.domain.User;
 import com.ivogoncalves.course.domain.enums.OrderStatus;
 import com.ivogoncalves.course.repositories.CategoryRepository;
+import com.ivogoncalves.course.repositories.OrderItemRepository;
 import com.ivogoncalves.course.repositories.OrderRepository;
 import com.ivogoncalves.course.repositories.ProductRepository;
 import com.ivogoncalves.course.repositories.UserRepository;
@@ -27,6 +29,8 @@ public class DbService {
 	private CategoryRepository categoryRepository;
 	@Autowired
 	private ProductRepository productRepository;
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 	
 	public void instanciaDb() {
 		//Users
@@ -67,6 +71,12 @@ public class DbService {
 		orderRepository.saveAll(Arrays.asList(o1,o2,o3));
 		
 		
+		//OrderItems
+		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
 		
+		orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
 	}
 }
